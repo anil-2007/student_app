@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Smart Study Hub</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar" role="banner">
+    <div class="brand" aria-hidden="false">
+      <h1>Smart Study Hub</h1>
+      <p class="tag">Organize notes • Track deadlines • Stay motivated</p>
+    </div>
+
+    <div class="controls" aria-hidden="false">
+      <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme" title="Toggle dark / light">
+        <!-- Icon inserted by script -->
+      </button>
+    </div>
+  </header>
+
+  <main class="layout" role="main">
+    <section class="container" aria-label="Main feature panels">
+
+      <!-- Notes Manager -->
+      <article class="card" aria-labelledby="notes-heading">
+        <div class="card-head">
+          <h2 id="notes-heading">📝 Notes Manager</h2>
+        </div>
+
+        <div class="card-body">
+          <input id="noteInput" class="field" type="text" placeholder="Enter a note or task..." />
+          <div class="row">
+            <button class="btn primary" onclick="addNote()">Add Note</button>
+            <button class="btn ghost" onclick="document.getElementById('noteInput').value = ''">Clear</button>
+          </div>
+          <ul id="notesList" class="list" aria-live="polite"></ul>
+        </div>
+      </article>
+
+      <!-- Deadline Tracker -->
+      <article class="card" aria-labelledby="deadlines-heading">
+        <div class="card-head">
+          <h2 id="deadlines-heading">📅 Deadline Tracker</h2>
+        </div>
+
+        <div class="card-body">
+          <input id="deadlineTitle" class="field" type="text" placeholder="Deadline title (e.g. Math assignment)" />
+          <input id="deadlineDate" class="field" type="date" />
+          <div class="row">
+            <button class="btn primary" onclick="addDeadline()">Add Deadline</button>
+            <button class="btn ghost" onclick="document.getElementById('deadlineTitle').value=''; document.getElementById('deadlineDate').value=''">Clear</button>
+          </div>
+          <ul id="deadlinesList" class="list" aria-live="polite"></ul>
+        </div>
+      </article>
+
+      <!-- Motivation Booster -->
+      <article class="card" aria-labelledby="quotes-heading">
+        <div class="card-head">
+          <h2 id="quotes-heading">💡 Motivation Booster</h2>
+        </div>
+
+        <div class="card-body">
+          <p id="quoteText" class="quote">Click <strong>Get Quote</strong> for a quick boost.</p>
+          <div class="row">
+            <button class="btn primary" onclick="getQuote()">Get Quote</button>
+            <button class="btn ghost" onclick="document.getElementById('quoteText').textContent='Stay consistent — refresh for another quote.'">Reset</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- AI Study Assistant -->
+      <article class="card" aria-labelledby="ai-heading">
+        <div class="card-head">
+          <h2 id="ai-heading">🤖 AI Study Assistant</h2>
+        </div>
+        <div class="card-body">
+          <input id="aiInput" class="field" type="text" placeholder="Ask me anything (e.g., Explain recursion)" />
+          <div class="row">
+            <button class="btn primary" onclick="askAI()">Ask AI</button>
+            <button class="btn ghost" onclick="document.getElementById('aiInput').value=''; document.getElementById('aiOutput').textContent=''">Clear</button>
+          </div>
+          <p id="aiOutput" class="ai-response"></p>
+        </div>
+      </article>
+
+    </section>
+  </main>
+
+  <!-- Theme toggle script -->
+  <script>
+    (function () {
+      const root = document.documentElement;
+      const btn = document.getElementById('themeToggle');
+
+      const sunSvg = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6.995 12c0 2.761 2.246 5.005 5.005 5.005s5.005-2.244 5.005-5.005S14.761 6.995 12 6.995 6.995 9.239 6.995 12z" stroke="currentColor" stroke-width="1.4"/><path d="M12 2v1.7M12 20.3V22M4.93 4.93l1.2 1.2M17.87 17.87l1.2 1.2M2 12h1.7M20.3 12H22M4.93 19.07l1.2-1.2M17.87 6.13l1.2-1.2" stroke="currentColor" stroke-width="1.4"/></svg>';
+      const moonSvg = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" stroke="currentColor" stroke-width="1.4"/></svg>';
+
+      function setIcon(isDark) {
+        btn.innerHTML = isDark ? sunSvg : moonSvg;
+      }
+
+      const saved = localStorage.getItem('theme');
+      let theme = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      root.setAttribute('data-theme', theme);
+      setIcon(theme === 'dark');
+
+      btn.addEventListener('click', () => {
+        theme = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        root.setAttribute('data-theme', theme);
+        localStorage.setItem('theme', theme);
+        setIcon(theme === 'dark');
+      });
+    })();
+  </script>
+
+  <!-- App JS -->
+  <script type="module" src="app.js"></script>
+  <div id="snackbar"></div>
+</body>
+</html>
