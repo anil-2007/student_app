@@ -155,7 +155,7 @@ window.getQuote = function () {
 };
 
 // ================= AI STUDY ASSISTANT (Gemini) =================
-const GEMINI_API_KEY = "AIzaSyB6al4h0zcBU1uLddtHBrbdhOrVAYSD-qs"; // 🔑 Replace with your key
+const GEMINI_API_KEY = ""; // 🔑 Replace with your key
 
 window.askAI = async function () {
   const inputEl = document.getElementById("aiInput");
